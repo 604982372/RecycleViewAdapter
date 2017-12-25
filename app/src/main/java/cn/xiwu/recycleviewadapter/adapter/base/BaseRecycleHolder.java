@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
  * Created by zuzu on 2017/8/1.
  */
 
-public abstract class RecycleBaseHolder extends RecyclerView.ViewHolder
+public abstract class BaseRecycleHolder extends RecyclerView.ViewHolder
 {
 
     private SparseArray<View> views;

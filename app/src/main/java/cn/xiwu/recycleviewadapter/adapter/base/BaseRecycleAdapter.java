@@ -1,32 +1,13 @@
-package cn.xiwu.recycleviewadapter.adapter.base;
-
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-
-/**
- * Created by zuzu on 2017/8/1.
- */
-
-public abstract class RecycleBaseAdapter<K, T extends RecycleBaseHolder> extends RecyclerView.Adapter<T>
+public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends RecyclerView.Adapter<T>
 {
     protected T holder;
     protected Context mContext;
     private LayoutInflater mInflater;
     protected T obj;
     protected List<K> mDataList = new ArrayList<>();
+    protected MyItemClickListener mItemClickListener;
 
-    public RecycleBaseAdapter(Context context)
+    public BaseRecycleAdapter(Context context)
     {
         mContext = context;
         if (mContext != null)
@@ -35,17 +16,18 @@ public abstract class RecycleBaseAdapter<K, T extends RecycleBaseHolder> extends
         }
     }
 
-
     @Override
     public T onCreateViewHolder(ViewGroup parent, int viewType)
     {
+        //放在try外面，防止xml文件错误被捕获,而获取不到精确的报错位置
+        View itemView = mInflater.inflate(getLayoutId(), parent, false);
         try
         {
-            View itemView = mInflater.inflate(getLayoutId(), parent, false);
             Class<T> clazz = getTClass();
             Constructor<T> constructor = clazz.getConstructor(View.class);
             T t = constructor.newInstance(itemView);
             holder = t;
+            holder.setListener(mItemClickListener);
             return t;
         }
         catch (Exception e)
@@ -106,8 +88,8 @@ public abstract class RecycleBaseAdapter<K, T extends RecycleBaseHolder> extends
 
     public void setDataList(Collection<K> list)
     {
-        this.mDataList.clear();
-        this.mDataList.addAll(list);
+        mDataList.clear();
+        mDataList.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -137,6 +119,16 @@ public abstract class RecycleBaseAdapter<K, T extends RecycleBaseHolder> extends
         notifyDataSetChanged();
     }
 
+    /**
+     * 设置Item点击监听
+     *
+     * @param listener
+     */
+    public void setOnItemClickListener(MyItemClickListener listener)
+    {
+        mItemClickListener = listener;
+    }
+
     protected Class<T> getTClass()
     {
         Class<T> entityClass = null;
@@ -149,4 +141,3 @@ public abstract class RecycleBaseAdapter<K, T extends RecycleBaseHolder> extends
         return entityClass;
     }
 }
-

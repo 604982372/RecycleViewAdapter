@@ -1,3 +1,23 @@
+package cn.xiwu.recycleviewadapter.adapter.base;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+
+/**
+ * Created by xiwu on 2017/8/1.
+ */
+
 public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends RecyclerView.Adapter<T>
 {
     protected T holder;
@@ -5,7 +25,6 @@ public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends
     private LayoutInflater mInflater;
     protected T obj;
     protected List<K> mDataList = new ArrayList<>();
-    protected MyItemClickListener mItemClickListener;
 
     public BaseRecycleAdapter(Context context)
     {
@@ -15,6 +34,7 @@ public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends
             mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
     }
+
 
     @Override
     public T onCreateViewHolder(ViewGroup parent, int viewType)
@@ -27,7 +47,6 @@ public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends
             Constructor<T> constructor = clazz.getConstructor(View.class);
             T t = constructor.newInstance(itemView);
             holder = t;
-            holder.setListener(mItemClickListener);
             return t;
         }
         catch (Exception e)
@@ -88,8 +107,8 @@ public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends
 
     public void setDataList(Collection<K> list)
     {
-        mDataList.clear();
-        mDataList.addAll(list);
+        this.mDataList.clear();
+        this.mDataList.addAll(list);
         notifyDataSetChanged();
     }
 
@@ -119,16 +138,6 @@ public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends
         notifyDataSetChanged();
     }
 
-    /**
-     * 设置Item点击监听
-     *
-     * @param listener
-     */
-    public void setOnItemClickListener(MyItemClickListener listener)
-    {
-        mItemClickListener = listener;
-    }
-
     protected Class<T> getTClass()
     {
         Class<T> entityClass = null;
@@ -141,3 +150,4 @@ public abstract class BaseRecycleAdapter<K, T extends BaseRecycleHolder> extends
         return entityClass;
     }
 }
+

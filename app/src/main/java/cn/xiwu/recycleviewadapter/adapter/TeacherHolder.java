@@ -5,12 +5,12 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import cn.xiwu.recycleviewadapter.R;
-import cn.xiwu.recycleviewadapter.adapter.base.RecycleBaseHolder;
+import cn.xiwu.recycleviewadapter.adapter.base.BaseRecycleHolder;
 
 /**
- * Created by zuzu on 2017/11/30.
+ * Created by xiwu on 2017/11/30.
  */
-public class TeacherHolder extends RecycleBaseHolder
+public class TeacherHolder extends BaseRecycleHolder
 {
     @BindView(R.id.name)
     TextView name;

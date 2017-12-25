@@ -10,7 +10,7 @@ import butterknife.ButterKnife;
 
 
 /**
- * Created by zuzu on 2017/8/1.
+ * Created by xiwu on 2017/8/1.
  */
 
 public abstract class BaseRecycleHolder extends RecyclerView.ViewHolder
@@ -18,33 +18,13 @@ public abstract class BaseRecycleHolder extends RecyclerView.ViewHolder
 
     private SparseArray<View> views;
 
-    public RecycleBaseHolder(View view)
+    public BaseRecycleHolder(View view)
     {
         super(view);
         this.views = new SparseArray<>();
         ButterKnife.bind(this, itemView);
     }
 
-    public static int getLayoutId()
-    {
-        return 0;
-    }
-
-
-    /**
-     * 得到带构造的类的实例
-     *//*
-    public static RecycleBaseHolder newInstance(String className, Object... args) throws Exception
-    {
-        Class newoneClass = Class.forName(className);
-        Class[] argsClass = new Class[args.length];
-        for (int i = 0, j = args.length; i < j; i++)
-        {
-            argsClass[i] = args[i].getClass();
-        }
-        Constructor<RecycleBaseHolder> cons = newoneClass.getConstructor(argsClass);
-        return cons.newInstance(args);
-    }*/
     @SuppressWarnings("unchecked")
     public <T extends View> T getView(int viewId)
     {
@@ -57,21 +37,21 @@ public abstract class BaseRecycleHolder extends RecyclerView.ViewHolder
         return (T) view;
     }
 
-    public RecycleBaseHolder setText(int viewId, String text)
+    public BaseRecycleHolder setText(int viewId, String text)
     {
         TextView tv = (TextView) this.getView(viewId);
         tv.setText(text);
         return this;
     }
 
-    public RecycleBaseHolder setTextColor(Context mContext, int viewId, int color)
+    public BaseRecycleHolder setTextColor(Context mContext, int viewId, int color)
     {
         TextView tv = (TextView) this.getView(viewId);
         tv.setTextColor(mContext.getResources().getColor(color));
         return this;
     }
 
-    public RecycleBaseHolder setOnClickListener(int viewId, View.OnClickListener listener)
+    public BaseRecycleHolder setOnClickListener(int viewId, View.OnClickListener listener)
     {
         View view = this.getView(viewId);
         view.setOnClickListener(listener);
